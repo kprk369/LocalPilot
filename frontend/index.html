@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090909"><meta name="color-scheme" content="dark"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="LocalPilot"><meta name="mobile-web-app-capable" content="yes"><link rel="manifest" href="/assets/manifest.webmanifest"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml"><title>LocalPilot</title><link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script><script src="/assets/automation.js" defer></script><script src="/assets/linux-status.js" defer></script><script src="/assets/pwa.js" defer></script></head>
+
+<body><div class="shell">
+
+<header><h1>LocalPilot</h1><div class="header-actions"><span id="linux-status" class="linux-status" role="status" aria-live="polite" data-state="checking" hidden><span class="status-dot" aria-hidden="true"></span><span id="linux-status-label">Checking Linux</span></span><button id="signout" class="outline" hidden>Sign out</button></div></header>
+
+<p id="notice" role="status" aria-live="polite" hidden></p>
+
+<section id="login"><h2>Your private workstation</h2><p>Sign in to your Linux assistant.</p><form id="login-form"><label for="username">Username</label><input id="username" disabled name="username" value="localpilot" autocomplete="username" required><label for="password">Password</label><input id="password" disabled name="password" type="password" autocomplete="current-password" required><button class="primary" type="submit" disabled>Sign in</button></form></section>
+
+<div id="workspace" hidden>
+
+<nav aria-label="Workspace"><button id="agent-tab" class="tab selected" aria-pressed="true">Agent</button><button id="desktop-tab" class="tab" aria-pressed="false">Desktop</button></nav>
+
+<div id="control-bar" class="control-bar"><p id="control-status" aria-live="polite">Checking desktop control-</p><div><button id="take-control" class="outline">Take control</button><button id="resume-ai" class="primary" hidden>Resume AI</button></div></div>
+
+<main id="agent-view"><section class="automation"><label for="routine-commands"><input id="routine-commands" type="checkbox" disabled aria-describedby="automation-description"><span>Auto-approve routine commands</span></label><p id="automation-description">Simple workspace checks and folder creation. Scripts, installs, and desktop actions still need review.</p><p id="automation-status" role="status" aria-live="polite"></p></section><section class="compose"><h2>Your Linux assistant</h2><p>Ask, review, and watch your tasks run.</p><form id="task-form"><label class="sr-only" for="request">What would you like to do?</label><textarea id="request" maxlength="8000" placeholder="What would you like to do?" required></textarea><button id="start" class="primary" type="submit">Start task</button></form></section>
+
+<section class="task-section"><h2>Current task</h2><p id="task-status" aria-live="polite">No task selected</p><p id="task-request" class="task-request" hidden></p><div id="approval" class="approval" hidden><h3 id="approval-title">Review command</h3><pre id="command"></pre><p id="approval-description">Runs as pilot inside Linux.</p><div class="actions"><button id="approve" class="primary">Approve</button><button id="reject" class="outline">Reject</button></div></div><button id="cancel" class="text-button" hidden>Cancel task</button><pre id="reply" class="reply" aria-live="polite" hidden></pre></section>
+
+<section class="activity-section"><h2>Activity</h2><div id="activity"><p class="muted">Task activity will appear here.</p></div><details id="history"><summary>Recent tasks</summary><div id="recent"></div></details></section></main>
+
+<section id="desktop-view" hidden><div class="desktop-toolbar"><p>Turn your phone sideways for more space.</p><a id="desktop-only" href="/guacamole/">Open desktop only</a></div><div class="desktop-stage"><div id="desktop-shield" class="desktop-shield"><span>Take control to interact. You can watch while AI works.</span></div><iframe id="desktop-frame" title="LocalPilot Linux desktop" data-src="/guacamole/" allow="clipboard-read; clipboard-write; fullscreen" inert></iframe></div></section>
+
+</div><footer><span id="connection">Private Linux workspace</span><button id="install-app" class="text-button" type="button">Install app</button></footer></div><dialog id="install-dialog" aria-labelledby="install-title"><h2 id="install-title">Keep LocalPilot close</h2><p id="install-intro">Add LocalPilot to your Home Screen.</p><ol id="install-steps"></ol><small>Your laptop must be awake and connected. Keep Tailscale connected on your phone. You may need to sign in again from the Home Screen app.</small><button id="install-close" class="primary" type="button">Got it</button></dialog></body></html>

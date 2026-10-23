@@ -1,0 +1,14 @@
+{
+  "token": "",
+  "ssh_host": "192.0.2.10",
+  "ssh_key": "C:/Projects/LocalPilot/.local/credentials/agent_ed25519",
+  "known_hosts": "C:/Projects/LocalPilot/.local/credentials/known_hosts",
+  "installer_key": "C:/Projects/LocalPilot/.local/credentials/installer_ed25519",
+  "host_key_alias": "localpilot-vm",
+  "password_hash": "",
+  "auth_username": "localpilot",
+  "public_origin": "https://your-device.your-tailnet.ts.net",
+  "model": "qwen3.8:latest",
+  "ollama_url": "http://127.0.0.1:11434",
+  "database": "C:/Projects/LocalPilot/.local/tasks.sqlite3"
+}
