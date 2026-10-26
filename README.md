@@ -16,7 +16,9 @@ The current version uses a local 27B model through Ollama. Windows runs the mode
 
 ## What I tested myself
 
-I used my iPhone 15 Pro Max over mobile data to connect to the Linux desktop and control it. From the phone, I also tried:
+Verified remote desktop access over cellular data, manual GUI takeover, software installation, standalone iPhone launch, and Firefox browsing.
+
+Some tasks I tried from my iPhone:
 
 - Asking the agent to create and run a Python script that printed a greeting.
 - Creating a folder and opening it in the file manager.
