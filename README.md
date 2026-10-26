@@ -1,61 +1,49 @@
 # LocalPilot
 
-A private Linux workstation you can use from your iPhone and operate with a local 27B AI model. Windows runs the AI on the laptop GPU; a separate Ubuntu Hyper-V VM provides the shared desktop, Firefox, and workspace.
+I wanted to build a developer tool using the computer-use capabilities of frontier AI models. I was inspired by ChatGPT's computer-use skill and wanted to try building my own version.
 
-Provisioning must create its own VM and never modify other existing VMs. Supported scope is **iPhone/iOS and the existing Ollama 27B model only**.
+For LocalPilot, I decided to run the model locally on my Windows laptop instead of calling a cloud AI service. I gave it an Ubuntu virtual machine where it could use a terminal, open applications, browse websites, and work with files. I also wanted to access that computer from my iPhone, so I could give it a task and watch what it was doing without sitting at my laptop.
 
-## Working features
+The idea was to give the model a personal computer it could actually use to get things done.
 
-- Private Tailscale HTTPS access and a dark Home Screen web app.
-- AI file/terminal tasks, saved history, exact command approvals, rejection, and cancellation.
-- Optional routine-command auto-approval with a saved toggle, Linux-enforced command list, and audit trail.
-- Shared desktop screenshots and approved GUI actions, with Take control / Resume AI.
-- Approved Firefox browsing and form input on the same desktop.
-- Live Linux readiness beside Sign out.
-- Approved catalog installation: tree, jq, ripgrep, firefox.
-- Startup supervision, pinned VM address discovery, and private connection recovery.
-- Restricted local file backups and verified restore into a separate inspection folder.
+## What it does
 
-The user confirmed cellular desktop/AI access, GUI takeover, software installation, standalone iPhone launch, and Firefox browsing. The latest regression passed **109 tests**, with two opt-in GUI tests skipped and one upstream warning. A separate real-model evaluation passed **six of six selected practical tasks** with independently checked outputs. This small evaluation is not a general success-rate claim.
+LocalPilot has a web app with two views: **Agent** and **Desktop**. In Agent, I can describe a task and see its progress and results. In Desktop, I can watch the Ubuntu screen and take control myself.
 
-The system is a functional private MVP. Complex/unfamiliar GUI tasks, long coding sessions, clean-machine installation, full VM/off-device recovery, automatic browser updates, and security auditing remain outside the completed validation.
+The model can create and edit files, run approved commands, open Firefox, interact with the desktop, and install a small set of supported tools. I can approve or reject actions, cancel a task, or pause the AI while I use the computer. There's also an optional setting to automatically approve a limited set of routine commands.
 
-## Start here
+The current version uses a local 27B model through Ollama. Windows runs the model on the laptop GPU, while Ubuntu provides the computer it works in. Tailscale lets me reach it privately from my iPhone. The web app can be added to the iPhone Home Screen.
 
-- [Use, check, and troubleshoot the existing setup](docs/setup-and-operation.md)
-- [Understand the architecture and permission boundaries](docs/architecture.md)
-- [Practical task results and timing limits](docs/task-evaluation.md)
-- [Reliability and connection recovery checks](docs/reliability.md)
-- [Backup coverage and staged restore](docs/backup-and-restore.md)
+## What I tested myself
 
-From the existing project directory, run the read-only diagnostic command:
+I used my iPhone 15 Pro Max over mobile data to connect to the Linux desktop and control it. From the phone, I also tried:
 
-    .venv\Scripts\python.exe -m scripts.doctor
+- Asking the agent to create and run a Python script that printed a greeting.
+- Creating a folder and opening it in the file manager.
+- Taking manual control of the desktop while the AI was paused.
+- Reviewing and approving a software installation.
+- Opening websites in Firefox, including the PlayStation website.
+- Installing the web app on my Home Screen and checking the dark interface.
 
-Daily operation requires the laptop awake, signed in, and online, with Tailscale connected on iPhone. Use the existing private app and credentials. Linux ready checks the guest/desktop, not website availability or model-loading time.
+I also restarted my laptop to check whether the setup came back. The first restart exposed a connection problem that caused a 502 error. That was fixed, and the app and desktop worked again after the later restart checks.
 
-## Configuration and contribution
+There are automated tests too, covering permissions, approvals, cancellation, connection handling, backups, and other parts of the system. A separate task evaluation checked things like fixing a small Python program, summarizing a CSV, and handling a missing file. The methods and results are in [docs/](docs/).
 
-See [the example runtime configuration](config/runtime.example.json), [contribution guide](CONTRIBUTING.md), and [security notes](SECURITY.md). Copy no credentials or VM state into source control. The example intentionally has no usable token/password.
+## Where it stands
 
-## Source and private state
+This is a working personal prototype. It handles the tasks I've tested, but I wouldn't assume it can reliably complete any long or unfamiliar task without supervision. It still asks before running scripts, installing software, or controlling the desktop. Routine auto-approval only covers a fixed list of simple commands.
 
-`backend/` contains authentication, orchestration, approvals, persistence, inference, and SSH transport. `frontend/` contains the installable web app. `vm/provisioning/` and `scripts/` contain setup and operator utilities. `tests/` covers the tool, account, session, recovery, and backup boundaries.
+The laptop needs to be awake, signed in, and online while I use it from my phone. Running the model locally doesn't make the whole setup work offline. The current focus is iPhone access and one local model.
 
-`.local/` contains VM disks/media, keys, generated credentials, task history, screenshots, logs, evaluation evidence, and backups. It is ignored and must never be published. Generated installer media and local backups also contain private recovery information. No paid AI API or cloud hosting is configured.
+## Documentation
 
-## Further documentation
+The technical details live in [docs/](docs/):
 
-- [Routine-command auto-approval](docs/auto-approval.md)
-- [Browser and readiness](docs/browser-control.md)
-- [Software installation](docs/package-installation.md)
-- [Startup and reboot recovery](docs/startup-and-recovery.md)
-- [Home Screen behavior](docs/home-screen-app.md)
-- [Backend development](docs/agent-backend.md)
+- [Setup, daily use, and troubleshooting](docs/setup-and-operation.md)
+- [Architecture and permissions](docs/architecture.md)
+- [Task evaluation](docs/task-evaluation.md)
+- [Routine auto-approval](docs/auto-approval.md)
+- [Backup and restore](docs/backup-and-restore.md)
 - [Changelog](docs/CHANGELOG.md)
 
-The setup guide explicitly distinguishes the tested current laptop from an unvalidated clean-machine rebuild. Do not rerun initial installation or one-time repair scripts to troubleshoot the working VM.
-
-## Publication status
-
-Source-only cleanup and known-secret checks passed. VM disks, credentials, runtime state, logs, backups, evidence, and historical development artifacts stay under ignored `.local/`. Run `python -m scripts.check_publication --archive` to create a verified source-only ZIP. No upload is performed by that command. A project license has not yet been selected.
+If you're looking through the code, start with the [contribution guide](CONTRIBUTING.md) and [security notes](SECURITY.md). Private configuration, credentials, VM files, and task history belong in the ignored `.local/` directory and should never be uploaded.
