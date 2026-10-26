@@ -2,7 +2,7 @@
 
 A private Linux workstation you can use from your iPhone and operate with a local 27B AI model. Windows runs the AI on the laptop GPU; a separate Ubuntu Hyper-V VM provides the shared desktop, Firefox, and workspace.
 
-Provisioning must create its own VM and never modify other existing VMs. Supported scope is **iPhone/iOS and the existing Ollama 27B model only**. Android, Strata, and model switching are excluded.
+Provisioning must create its own VM and never modify other existing VMs. Supported scope is **iPhone/iOS and the existing Ollama 27B model only**.
 
 ## Working features
 
